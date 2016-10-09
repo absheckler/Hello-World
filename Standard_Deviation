@@ -1,0 +1,24 @@
+import arithmetic_mean
+from math import sqrt
+
+def standard_dev():
+    arithmetic_mean.arithmetic_mean()
+    std_dev_vals = []
+    for val in arithmetic_mean.vals:
+        opp1 = float(arithmetic_mean.product - val)
+        opp2 = float(opp1**2)
+        std_dev_vals.append(opp2)
+    summation = 0
+    for val in std_dev_vals:
+        summation = float(summation + val)
+    opp3 = float(summation)/float(arithmetic_mean.valnum-1)
+    std_dev = float(sqrt(opp3))
+    print "Standard Deviation: " + str(std_dev)
+
+standard_dev()
+
+while True:
+    standard_dev()
+        
+        
+
