@@ -1,0 +1,157 @@
+import java.util.Scanner;
+import java.io.*;
+
+public class MadLibs {
+
+	
+	public static void main(String[] args) throws FileNotFoundException{
+		
+		System.out.println("Welcome to the game of Mad Libs.");
+		System.out.println("I will ask you to provide various words");
+		System.out.println("and phrases to fill in a story.");
+		System.out.println("The result will be written to an output file.");
+		
+		Scanner reader = new Scanner(System.in);
+		
+		System.out.print("(C)reate mad-lib, (V)iew mad lib, (Q)uit? ");
+		String input = reader.nextLine();
+		
+		while(!input.equals("q")) {
+			
+			while(!input.equals("c") && !input.equals("v")) {
+			
+				System.out.print("(C)reate mad-lib, (V)iew mad lib, (Q)uit? ");
+				input = reader.nextLine();
+			
+			}
+			
+			if (input.equals("c")) {
+				
+				createMadLib();
+				
+			}
+			
+			else{
+				
+				viewMadLib();
+				
+			}
+			
+			
+			System.out.print("(C)reate mad-lib, (V)iew mad lib, (Q)uit? ");
+			input = reader.nextLine();
+			
+			
+		}
+		
+		
+	}
+	
+	
+	public static File inputFile() throws FileNotFoundException {
+		
+		Scanner reader = new Scanner(System.in);
+		System.out.print("Input file name: ");
+		
+		String name = reader.nextLine();
+		
+		File f = new File(name);
+		
+		while(!f.exists()){
+			
+			System.out.print("File not found. Try again: ");
+			name = reader.nextLine();
+			f = new File(name);
+			
+		}
+		
+		return f;
+		
+	}
+	
+	
+	
+	public static void createMadLib() throws FileNotFoundException{
+		
+		File file = inputFile();
+		
+		Scanner reader = new Scanner(System.in);
+		
+		System.out.print("Output file name: ");
+		String outName = reader.nextLine();
+		System.out.println();
+		
+		PrintStream output = new PrintStream(new File(outName));
+		
+		Scanner input = new Scanner(file);
+
+		while(input.hasNextLine()) {
+			
+			String line = input.nextLine();
+			Scanner lineInput = new Scanner(line);
+			String newLine = "";
+			
+			while(lineInput.hasNext()){
+				
+				String word = lineInput.next();
+				int l = word.length();
+				
+				if (word.startsWith("<") && word.endsWith(">")) { 
+				
+					String wordType = word.substring(1, l-1);
+					wordType = wordType.replace("-", " ");
+					String wordPrompt = "Please type ";
+					String lowerWordType = wordType.toLowerCase();
+					
+					if (lowerWordType.substring(0,1).equals("a") || lowerWordType.substring(0,1).equals("e") || lowerWordType.substring(0,1).equals("i") || lowerWordType.substring(0,1).equals("o") || lowerWordType.substring(0,1).equals("u")) {
+						
+						wordPrompt = wordPrompt + "an ";
+						
+					}
+					
+					else{
+						
+						wordPrompt = wordPrompt + "a ";
+						
+					}
+					
+					System.out.print(wordPrompt + wordType); 
+					String response = reader.nextLine();
+					word = response;
+					
+				}
+				
+				
+				newLine = newLine + word + " ";
+				
+			}
+			
+			output.println(newLine);
+			
+		}
+		
+		System.out.println("Your Mad Lib has been created!");
+		System.out.println();
+	}
+	
+	public static void viewMadLib() throws FileNotFoundException {
+		
+		File file = inputFile();
+		System.out.println();
+		
+		Scanner input = new Scanner(file);
+		while(input.hasNextLine()) {
+			
+			String text = input.nextLine();
+			System.out.println(text);
+			
+		}
+		
+		
+	}
+	
+	
+
+	
+	
+}
